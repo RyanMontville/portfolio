@@ -1,0 +1,58 @@
+input, textarea {
+    width: calc(100% - 20px);
+    background-color: var(--main-background);
+    color: var(--main-color);
+    padding: 10px;
+    margin: 5px 0;
+}
+
+textarea {
+    min-height: 500px;
+}
+
+.button-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin: 20px 0;
+}
+
+.delete-button {
+  background-color: var(--error-background);
+}
+
+.delete-button:hover {
+  background-color: var(--error-hover);
+}
+
+.cancel-btn {
+    background-color: var(--info-background);
+}
+
+.flex-spc-rnd {
+  justify-content: space-around !important;
+}
+
+.flex-center {
+  justify-content: center !important;
+  gap: 10px !important;
+}
+
+.skills-checkbox-container {
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  margin: 15px 0;
+  max-height: 250px;
+}
+
+.skills-checkbox-container label {
+  cursor: pointer;
+  display: flex;
+  flex-wrap: nowrap;
+  white-space: nowrap;
+  gap: 8px;
+}
