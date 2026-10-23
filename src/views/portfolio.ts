@@ -156,6 +156,6 @@ export async function renderPortfolioHome(container: HTMLElement, currentRole: s
   if (loadingCard) loadingCard.remove();
 }
 
-function filterProjectsBySkill(skill: string): any {
-  throw new Error('Function not implemented.');
-}
+// function filterProjectsBySkill(skill: string): any {
+//   throw new Error('Function not implemented.');
+// }
