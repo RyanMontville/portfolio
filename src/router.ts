@@ -10,10 +10,6 @@ class Router {
   private routes: Route[] = [];
   private ignoredPaths: string[] = [];
 
-  /**
-   * Add path prefixes that should be ignored by the SPA router 
-   * (e.g., other GitHub Pages projects hosted on the same domain).
-   */
   ignorePath(pathPrefix: string) {
     this.ignoredPaths.push(pathPrefix);
   }
@@ -60,7 +56,7 @@ class Router {
         target.origin === window.location.origin &&
         target.getAttribute('target') !== '_blank' &&
         !target.hasAttribute('download') &&
-        !target.hasAttribute('data-external') && // Allows manual opting-out via HTML
+        !target.hasAttribute('data-external') &&
         !e.ctrlKey &&
         !e.metaKey &&
         !e.shiftKey &&
@@ -68,13 +64,11 @@ class Router {
       ) {
         const url = new URL(target.href);
 
-        // Check if the target pathname starts with any ignored path prefix
         const isIgnored = this.ignoredPaths.some((prefix) => 
           url.pathname.startsWith(prefix)
         );
 
         if (isIgnored) {
-          // Let the browser handle the navigation normally to GitHub Pages
           return; 
         }
 
