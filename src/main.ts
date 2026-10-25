@@ -41,7 +41,7 @@ async function initApp() {
     }
   });
 
-  const adventureBlogLink = createLink({ href: "https://ryanmontville.com/disney/", linkText: "My Adventure Blog", external: false });
+  const adventureBlogLink = createLink({ href: "https://disney.ryanmontville.com/", linkText: "My Adventure Blog", external: false });
   adventureBlogLink.setAttribute('data-external', '');
   //const githubLink = createLink({ href: "https://github.com/RyanMontville", linkText: "GitHub", external: true });
   //const linkedinLink = createLink({ href: "https://www.linkedin.com/in/ryanmontville/", linkText: "LinkedIn", external: true });
