@@ -498,16 +498,16 @@ td.center {
     padding: 10px 20px;
     cursor: pointer;
     background-color: var(--main-background);
-    color: var(--header-background);
+    color: #b81f24;
     border-radius: 8px;
     font-weight: bold;
     transition: background-color 0.3s ease;
-    border: 3px solid var(--header-background);
+    border: 3px solid #b81f24;
 }
 
 .custom-file-upload:hover, button:hover {
-    background-color: var(--header-background);
-    border: 3px solid var(--header-background);
+    background-color: #b81f24;
+    border: 3px solid #b81f24;
     color: #fff;
 }
 
