@@ -1,1 +1,0 @@
-The subfolders and files in this folder exist to help the router navigate to the external project pages while keeping them within my domain.
