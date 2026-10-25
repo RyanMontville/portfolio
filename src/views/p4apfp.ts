@@ -1,6 +1,6 @@
 import htmlContent from './p4apfp.html?raw';
 
-export async function renderP4aPfp(container: HTMLElement): Promise<void> {
+export async function renderP4aPfp(): Promise<void> {
     const body = document.querySelector("body") as HTMLElement;
     body.innerHTML = htmlContent;
 

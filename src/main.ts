@@ -113,7 +113,7 @@ async function initApp() {
   });
 
   router.addRoute("/p4a-pfp-maker", () => {
-    renderP4aPfp(appElement);
+    renderP4aPfp();
   })
 
   router.addRoute('/editpage/:id', (params) => {
