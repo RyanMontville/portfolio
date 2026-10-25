@@ -1,7 +1,8 @@
 import htmlContent from './p4apfp.html?raw';
 
 export async function renderP4aPfp(container: HTMLElement): Promise<void> {
-    container.innerHTML = htmlContent;
+    const body = document.querySelector("body") as HTMLElement;
+    body.innerHTML = htmlContent;
 
     const upload = document.getElementById('upload') as HTMLInputElement;
     const canvas = document.getElementById('p4a-canvas') as HTMLCanvasElement;

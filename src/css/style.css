@@ -497,18 +497,18 @@ td.center {
     display: inline-block;
     padding: 10px 20px;
     cursor: pointer;
-    background-color: var(--header-backgroud);
-    color: white;
+    background-color: var(--main-background);
+    color: var(--header-background);
     border-radius: 8px;
     font-weight: bold;
     transition: background-color 0.3s ease;
-    border: 1px solid #fff;
+    border: 3px solid var(--header-background);
 }
 
 .custom-file-upload:hover, button:hover {
-    background-color: #fff;
-    border: 1px solid var(--header-backgroud);
-    color: var(--header-backgroud);
+    background-color: var(--header-background);
+    border: 3px solid var(--header-background);
+    color: #fff;
 }
 
 @media (min-width: 1135px) and (max-width: 1489px) {
