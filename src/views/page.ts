@@ -32,6 +32,6 @@ export async function renderPublicPageView(container: HTMLElement, pageId: strin
         
     } catch (error) {
         console.error("Page throwing error?")
-        renderNotFoundPage(container, pageId);
+        renderNotFoundPage(container, pageId, currentRole);
     }
 }

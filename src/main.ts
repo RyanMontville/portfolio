@@ -113,12 +113,12 @@ async function initApp() {
 
   router.addRoute('/editpage/:id', (params) => {
     const pageId = params.id;
-    renderPageEditor(appElement, pageId);
+    renderPageEditor(appElement, pageId, currentRole);
   });
 
   router.addRoute('/editproject/:id', (params) => {
     const projectID = params.id;
-    renderProjectEditor(appElement, projectID);
+    renderProjectEditor(appElement, projectID, currentRole);
 
   })
 
@@ -128,7 +128,7 @@ async function initApp() {
   });
 
   router.addRoute('*', () => {
-    renderNotFoundPage(appElement, "Page");
+    renderNotFoundPage(appElement, "Page", currentRole);
   });
 
   onAuthStateChanged(auth, async (user) => {

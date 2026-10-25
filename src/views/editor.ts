@@ -86,7 +86,7 @@ async function handleProjectSubmit(formElement: HTMLFormElement, projectId: stri
     createMessage({ messageBody: `${titleVale.toString().trim()} updated`, location: "main-message", type: "check_circle", autoCloseSeconds: 5 });
 }
 
-export async function renderPageEditor(container: HTMLElement, pageId: string | null) {
+export async function renderPageEditor(container: HTMLElement, pageId: string | null, currentRole: string | null) {
     container.innerHTML = "";
     let error: boolean = false;
     const main = makeElement("main", null, null, null);
@@ -115,13 +115,13 @@ export async function renderPageEditor(container: HTMLElement, pageId: string | 
                     navLinkCheckbox.checked = false;
                 }
             } else {
-                renderNotFoundPage(container, pageId);
+                renderNotFoundPage(container, pageId, currentRole);
                 error = true;
             }
         } catch (err) {
             error = true;
             console.error("Error loading page: ", err);
-            renderNotFoundPage(container, pageId);
+            renderNotFoundPage(container, pageId, currentRole);
         }
     }
 
@@ -136,7 +136,7 @@ export async function renderPageEditor(container: HTMLElement, pageId: string | 
     }
 }
 
-export async function renderProjectEditor(container: HTMLElement, projectId: string | null) {
+export async function renderProjectEditor(container: HTMLElement, projectId: string | null, currentRole: string | null) {
     container.innerHTML = "";
     let error: boolean = false;
     const main = makeElement("main", null, null, null);
@@ -197,7 +197,7 @@ export async function renderProjectEditor(container: HTMLElement, projectId: str
         } catch (err) {
             error = true;
             console.error("Error loading project: ", err);
-            renderNotFoundPage(container, projectId);
+            renderNotFoundPage(container, projectId, currentRole);
         }
     }
     editorForm.append(titleInput, dateInput, skillsContainer, editSkillsBtn, descriptionTextarea, categorySelect, submitBtn);
