@@ -10,6 +10,7 @@ import { renderPublicPageView } from './views/page';
 import { getAllPages } from './services/firebase/db';
 import { goToLink } from './services/goto.service';
 import { renderNotFoundPage } from './views/notfound';
+import { renderP4aPfp } from './views/p4apfp';
 
 const appElement = document.getElementById('app') as HTMLDivElement;
 
@@ -110,6 +111,10 @@ async function initApp() {
   router.addRoute("/pages", () => {
     renderPages(appElement, currentRole ? currentRole : "");
   });
+
+  router.addRoute("/p4a-pfp-maker", () => {
+    renderP4aPfp(appElement);
+  })
 
   router.addRoute('/editpage/:id', (params) => {
     const pageId = params.id;

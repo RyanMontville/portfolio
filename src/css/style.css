@@ -384,6 +384,10 @@ button {
     color: var(--main-link);
 }
 
+ul {
+    margin-left: 10px;
+}
+
 .links {
     display: flex;
     justify-content: center;
@@ -466,6 +470,45 @@ td.center {
 .button-cell:hover {
     background-color: var(--main-color);
     color: var(--main-background);
+}
+
+.p4a-pfp-overlay {
+    width: 200px;
+    cursor: pointer;
+}
+
+.p4a-pfp-overlay:hover {
+    transform: scale(1.2);
+}
+
+#p4a-canvas {
+    width: 100%;
+    max-width: 300px;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+}
+
+#pfa-image-upload input[type="file"] {
+    display: none;
+}
+
+.custom-file-upload, button {
+    display: inline-block;
+    padding: 10px 20px;
+    cursor: pointer;
+    background-color: var(--header-backgroud);
+    color: white;
+    border-radius: 8px;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+    border: 1px solid #fff;
+}
+
+.custom-file-upload:hover, button:hover {
+    background-color: #fff;
+    border: 1px solid var(--header-backgroud);
+    color: var(--header-backgroud);
 }
 
 @media (min-width: 1135px) and (max-width: 1489px) {
