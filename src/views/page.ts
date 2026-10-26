@@ -44,6 +44,8 @@ export async function renderPublicPageView(container: HTMLElement, pageId: strin
             main.appendChild(lastUpdated);
             loadingMain.remove();
             container.appendChild(main);
+        } else {
+          renderNotFoundPage(container, pageId, currentRole);
         }
         
     } catch (error) {
