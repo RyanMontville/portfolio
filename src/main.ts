@@ -138,6 +138,7 @@ async function initApp() {
     renderNotFoundPage(appElement, "Page", currentRole);
   });
 
+  // Auth stuff
   onAuthStateChanged(auth, async (user) => {
     if (user?.uid !== currentUser?.uid) {
       currentUser = user;
