@@ -101,6 +101,7 @@ async function initApp() {
 
   updateUIBasedOnAuth();
 
+  // Routes
   router.addRoute('/', () => {
     renderPortfolioHome(appElement, currentRole ? currentRole : "");
   });
