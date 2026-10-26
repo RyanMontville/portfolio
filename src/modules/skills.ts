@@ -1,5 +1,8 @@
 import { createButton, makeElement } from "./utils";
 
+const allAvailableSkills = ["Java", "Python", "C#", "HTML", "CSS", "JavaScript", "TypeScript", "Spring Boot", "PostgreSQL", "JSON", "Vue.js", "React.js", "Angular", "Turtle Graphics", "Blazor", "Flask", "Intentionally Bad Design", "MySQL", "PHP", "Python Pillow", "HTML Canvas Graphics", "Firebase", "Vite", "Quill", "D3.js"];
+allAvailableSkills.sort();
+
 export function getSkillImage(skill: string): string {
     switch (skill) {
         case 'Java': { return "https://img.shields.io/badge/java-%23ED8B00.svg?style=for-the-badge&logo=openjdk&logoColor=white"; }
@@ -34,8 +37,6 @@ export function getSkillImage(skill: string): string {
 }
 
 export async function openSkillsModal(currentSkills: string[]): Promise<string[] | null> {
-    const allAvailableSkills = ["Java", "Python", "C#", "HTML", "CSS", "JavaScript", "TypeScript", "Spring Boot", "PostgreSQL", "JSON", "Vue.js", "React.js", "Angular", "Bootstrap", "Turtle Graphics", "Blazor", "Flask", "Node.js", "Intentionally Bad Design", "MySQL", "PHP", "Python Pillow", "HTML Canvas Graphics", "Firebase", "Vite", "Quill", "D3.js"];
-    allAvailableSkills.sort();
     return new Promise((resolve) => {
         const modalRoot = makeElement("div", "modal-root", null, null);
         const modalOverlay = makeElement("div", null, "modal-overlay", null);
@@ -122,4 +123,14 @@ export function renderSkillsRow(skills: string[]): HTMLElement {
         accSkill.appendChild(skillImg);
         return accSkill;
     }, makeElement("section", null, "skills", null));
+}
+
+export async function populateSkillsSelect(selectElm: HTMLSelectElement) {
+    const selectOption = makeElement("option", null, null, "Filter projects by skill");
+    selectElm.appendChild(selectOption);
+    allAvailableSkills.forEach((skill) => {
+        let newOption = makeElement("option", null, null, skill);
+        newOption.setAttribute("value", skill)
+        selectElm.appendChild(newOption);
+    });
 }

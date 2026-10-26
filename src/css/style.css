@@ -315,7 +315,7 @@ main p {
     padding: 10px 0;
 }
 
-#filter-bar {
+#projects-header {
     display: flex;
     justify-content: space-between;
     align-items: center;

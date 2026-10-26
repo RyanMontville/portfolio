@@ -5,7 +5,7 @@ import { createButton, createInput, createMessage, makeElement } from '../module
 import { createNewProject, deleteProject, getAllProjects, getCardById, updateCard } from '../services/firebase/db';
 import { confirmDeleteModal, createModal } from '../modules/modal';
 import { createImageCarousel } from '../modules/images';
-import { renderSkillsRow } from '../modules/skills';
+import { populateSkillsSelect, renderSkillsRow } from '../modules/skills';
 
 let all: Project[] = [];
 let websites: Project[] = [];
@@ -14,6 +14,7 @@ let projectsToDisplay: Project[] = [];
 
 let tabs: { id: string, label: string }[] = [];
 let activeTab: string = "all";
+let selectedSkill: string | null = null;
 
 async function editIntroCard(cardElement: HTMLElement, cardContent: string, currentRole: string) {
   cardElement.innerHTML = "";
@@ -54,12 +55,14 @@ async function renderIntroCard(currentRole: string) {
 
 function rerenderProjects(projectsContainer: HTMLElement, currentRole: string) {
   projectsContainer.innerHTML = "";
-  //Render the tabs bar
+  
+  // Render the tabs bar
   const tabsRow = tabs.reduce((acc: HTMLElement, currTab: { id: string, label: string }) => {
     const nextTab = createButton(currTab.label, "button", currTab.id, "");
     if (currTab.id === activeTab) nextTab.classList.add("active");
     nextTab.addEventListener("click", () => {
       activeTab = currTab.id;
+      selectedSkill = null;
       switch (currTab.id) {
         case "websites":
           projectsToDisplay = websites;
@@ -75,6 +78,7 @@ function rerenderProjects(projectsContainer: HTMLElement, currentRole: string) {
     acc.appendChild(nextTab);
     return acc;
   }, makeElement("section", "tabs", null, null));
+
   // If logged in as admin, add new project button
   if (currentRole === "admin") {
     const newProjectBtn = createButton("New Project", "button", "new-project-btn", "", "add");
@@ -87,14 +91,39 @@ function rerenderProjects(projectsContainer: HTMLElement, currentRole: string) {
     });
     tabsRow.prepend(newProjectBtn);
   }
+
+  function filterProjectsBySkill(skill: string) {
+    selectedSkill = skill;
+    activeTab = "skill";
+    if (!skill || skill === "all") {
+      projectsToDisplay = all;
+    } else {
+      projectsToDisplay = all.filter(project => project.skills.includes(skill));
+    }
+    console.log(projectsToDisplay.length);
+    rerenderProjects(projectsContainer, currentRole);
+  }
+
   // Render project heading and cards
-  const projectsHeading = makeElement("h2", null, null, `Displaying ${projectsToDisplay.length} project${projectsToDisplay.length === 1 ? '' : "s"}`);
+  const projectsHeader = makeElement("div", "projects-header", null, null);
+  const projectsHeading = makeElement("h2", null, null, null);
+  if (selectedSkill) {
+    projectsHeading.textContent = `Displaying ${projectsToDisplay.length} project${projectsToDisplay.length === 1 ? '' : "s"} for ${selectedSkill}`;
+  } else {
+    projectsHeading.textContent = `Displaying ${projectsToDisplay.length} project${projectsToDisplay.length === 1 ? '' : "s"}`;
+  }
+  const filterProjects = makeElement("select", null, null, null) as HTMLSelectElement;
+  populateSkillsSelect(filterProjects);
+  filterProjects.addEventListener("change", () => filterProjectsBySkill(filterProjects.value));
+  projectsHeader.append(projectsHeading, filterProjects);
+
   const projectsDiv = projectsToDisplay.reduce((acc: HTMLElement, currProject: Project) => {
     const nextProject = makeElement("article", currProject.id, "card", null);
     const projectHeading = currProject.getHeading();
     const skillsSection = renderSkillsRow(currProject.skills);
     const descriptionSection = makeElement("section", `${currProject.id}-description`, null, null);
     descriptionSection.innerHTML = currProject.description;
+    
     const screenshots = descriptionSection.querySelectorAll<HTMLElement>(".screenshot-placeholder");
     screenshots.forEach(screenshot => {
       const imagesAttr = screenshot.getAttribute("data-images");
@@ -115,7 +144,7 @@ function rerenderProjects(projectsContainer: HTMLElement, currentRole: string) {
     if (currentRole === "admin") {
       const adminBtnRow = makeElement("section", `${currProject.id}-actions`, "button-row", null);
       const editBtn = createButton("Edit", "button", `edit-${currProject.id}`, "", "edit");
-      editBtn.addEventListener("click", () => router.navigateTo(`/editproject/${currProject.id}`));
+      editBtn.addEventListener("click", () => router.navigateTo(`/portfolio/${currProject.id}/edit`));
       const deleteBtn = createButton("Delete", "button", `delete-${currProject.id}`, "delete-button", "delete");
       deleteBtn.addEventListener("click", async () => {
         const response = await confirmDeleteModal(`Delete Project ${currProject.id}`, `Are you sure you want to delete ${currProject.projectTitle}`);
@@ -127,9 +156,9 @@ function rerenderProjects(projectsContainer: HTMLElement, currentRole: string) {
     acc.appendChild(nextProject);
     return acc;
   }, makeElement("div", "projects", null, null));
-  projectsContainer.append(tabsRow, projectsHeading, projectsDiv);
-}
 
+  projectsContainer.append(tabsRow, projectsHeader, projectsDiv);
+}
 
 export async function renderPortfolioHome(container: HTMLElement, currentRole: string) {
   container.innerHTML = htmlContent;
@@ -155,7 +184,3 @@ export async function renderPortfolioHome(container: HTMLElement, currentRole: s
   const loadingCard = document.getElementById("loading-card");
   if (loadingCard) loadingCard.remove();
 }
-
-// function filterProjectsBySkill(skill: string): any {
-//   throw new Error('Function not implemented.');
-// }
