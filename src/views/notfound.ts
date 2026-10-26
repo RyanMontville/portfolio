@@ -27,7 +27,7 @@ export async function renderNotFoundPage(container: HTMLElement, pageId: string,
     }
     if (currentRole === "admin") {
         const editPageBtn = createButton("Edit page", "button", "edit-btn", "", "edit");
-        editPageBtn.addEventListener("click", () => router.navigateTo(`/editpage/${pageId}`));
+        editPageBtn.addEventListener("click", () => router.navigateTo(`/not-found/edit`));
         main.prepend(editPageBtn);
     }
 }
