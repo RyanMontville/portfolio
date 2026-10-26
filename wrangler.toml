@@ -1,0 +1,10 @@
+name = "ryan-montville-main"
+compatibility_date = "2026-01-01"
+
+# Points to your worker script
+main = "./src/worker.js"
+
+# Points to your built frontend files folder (change "dist" if your bundler uses "build" or "public")
+[assets]
+directory = "./dist"
+binding = "ASSETS"
