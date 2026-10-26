@@ -183,6 +183,7 @@ body.no-scroll-fixed {
 
 header {
     grid-area: header;
+    min-height: 210px;
 }
 
 main {
