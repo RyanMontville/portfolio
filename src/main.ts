@@ -117,12 +117,12 @@ async function initApp() {
     renderP4aPfp();
   })
 
-  router.addRoute('/editpage/:id', (params) => {
+  router.addRoute('/:id/edit', (params) => {
     const pageId = params.id;
     renderPageEditor(appElement, pageId, currentRole);
   });
 
-  router.addRoute('/editproject/:id', (params) => {
+  router.addRoute('/portfolio/:id/edit', (params) => {
     const projectID = params.id;
     renderProjectEditor(appElement, projectID, currentRole);
 

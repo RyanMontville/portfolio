@@ -34,7 +34,7 @@ export async function renderPages(container: HTMLElement, currentRole: string) {
             viewCell.addEventListener("click", () => router.navigateTo(`/${page.id}`));
             const editCell = makeElement("td", null, "button-cell", null);
             editCell.appendChild(makeElement("span", null, "material-symbols-outlined", "edit"));
-            editCell.addEventListener("click", () => router.navigateTo(`/editpage/${page.id}`));
+            editCell.addEventListener("click", () => router.navigateTo(`/${page.id}/edit`));
             const deleteCell = makeElement("td", null, "button-cell", null);
             deleteCell.appendChild(makeElement("span", null, "material-symbols-outlined", "delete"));
             deleteCell.addEventListener("click", async () => {

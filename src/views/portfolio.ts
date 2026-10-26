@@ -75,7 +75,7 @@ function rerenderProjects(projectsContainer: HTMLElement, currentRole: string) {
     acc.appendChild(nextTab);
     return acc;
   }, makeElement("section", "tabs", null, null));
-  //If logged in as admin, add new project button
+  // If logged in as admin, add new project button
   if (currentRole === "admin") {
     const newProjectBtn = createButton("New Project", "button", "new-project-btn", "", "add");
     newProjectBtn.addEventListener("click", async () => {
@@ -87,7 +87,7 @@ function rerenderProjects(projectsContainer: HTMLElement, currentRole: string) {
     });
     tabsRow.prepend(newProjectBtn);
   }
-  //Render project heading and cards
+  // Render project heading and cards
   const projectsHeading = makeElement("h2", null, null, `Displaying ${projectsToDisplay.length} project${projectsToDisplay.length === 1 ? '' : "s"}`);
   const projectsDiv = projectsToDisplay.reduce((acc: HTMLElement, currProject: Project) => {
     const nextProject = makeElement("article", currProject.id, "card", null);
