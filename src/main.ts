@@ -135,7 +135,9 @@ async function initApp() {
   });
 
   router.addRoute('*', () => {
-    renderNotFoundPage(appElement, "Page", currentRole);
+    const attemptedPath = window.location.pathname.replace(/^\/+/, '');
+
+    renderNotFoundPage(appElement, attemptedPath, currentRole);
   });
 
   // Auth stuff
