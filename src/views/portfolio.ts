@@ -135,13 +135,13 @@ export async function renderPortfolioHome(container: HTMLElement, currentRole: s
   container.innerHTML = htmlContent;
   const projectContainer = document.getElementById("projects") as HTMLElement;
   await renderIntroCard(currentRole);
-  //Load projects
+  // Load projects
   all = await getAllProjects();
   websites = all.filter(project => project.category === "websites-&-app");
   labs = all.filter(project => project.category === "labs-&-utilities");
   projectsToDisplay = all;
 
-  //Initialize tabs
+  // Initialize tabs
   tabs = [
     { id: "all", label: `All Projects (${all.length})` },
     { id: "websites", label: `Websites & Apps (${websites.length})` },
