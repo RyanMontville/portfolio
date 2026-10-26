@@ -15,10 +15,6 @@
     width: 100%;
 }
 
-#about-img-container {
-    width: 210px;
-    height: 210px;
-}
 .about-img {
     border: 5px solid var(--header-color);
     width: 200px;
@@ -27,18 +23,24 @@
 }
 
 #osu img {
+    width: 210px;
+    height: 210px;
     transform: rotate(-20deg);
     margin-right: 25px;
     margin-bottom: 20px;
 }
 
 #disney img {
+    width: 210px;
+    height: 210px;
     transform: rotate(20deg);
     margin-left: 20px;
     margin-bottom: 10px;
 }
 
 #present img {
+    width: 210px;
+    height: 210px;
     transform: rotate(-10deg);
     margin-right: 20px;
     margin-bottom: 10px;
