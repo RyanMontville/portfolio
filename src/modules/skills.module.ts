@@ -1,4 +1,4 @@
-import { createButton, makeElement } from "./utils";
+import { createButton, makeElement } from "./utils.module";
 
 const allAvailableSkills = ["Java", "Python", "C#", "HTML", "CSS", "JavaScript", "TypeScript", "Spring Boot", "PostgreSQL", "JSON", "Vue.js", "React.js", "Angular", "Turtle Graphics", "Blazor", "Flask", "Intentionally Bad Design", "MySQL", "PHP", "Python Pillow", "HTML Canvas Graphics", "Firebase", "Vite", "Quill", "D3.js"];
 allAvailableSkills.sort();

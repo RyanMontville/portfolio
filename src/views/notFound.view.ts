@@ -1,8 +1,8 @@
-import { createButton, formatDate, makeElement } from "../modules/utils";
+import { state } from "../modules/state.module";
+import { createButton, formatDate, makeElement } from "../modules/utils.module";
 import { router } from "../router";
-import { getPageById } from "../services/firebase/db";
 
-export async function renderNotFoundPage(container: HTMLElement, pageId: string, currentRole: string | null) {
+export async function renderNotFoundPage(container: HTMLElement, pageId: string) {
     container.innerHTML = "";
     
     const notFoundH1 = makeElement("h1", null, null, `404: ${pageId} not found`);
@@ -20,7 +20,7 @@ export async function renderNotFoundPage(container: HTMLElement, pageId: string,
     main.append(notFoundH1, content);
 
     try {
-        const notFoundContent = await getPageById("not-found");
+        const notFoundContent = state.pages?.find(page => page.id === "not-found");
         if (notFoundContent) {
             notFoundH1.textContent = notFoundContent.title.replace("{title}", pageId);
             content.innerHTML = notFoundContent.content;
@@ -31,7 +31,7 @@ export async function renderNotFoundPage(container: HTMLElement, pageId: string,
         console.error("Error loading custom not found page from DB", error);
     }
 
-    if (currentRole === "admin") {
+    if (state.currentRole === "admin") {
         const editPageBtn = createButton("Edit page", "button", "edit-btn", "", "edit");
         editPageBtn.addEventListener("click", () => router.navigateTo(`/not-found/edit`));
         main.prepend(editPageBtn);

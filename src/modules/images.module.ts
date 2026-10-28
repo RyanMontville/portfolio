@@ -1,4 +1,4 @@
-import { createButton, makeElement } from "./utils";
+import { createButton, makeElement } from "./utils.module";
 
 export function createImageCarousel(images: {src: string, alt: string}[]): HTMLElement {
     let imageIndex: number = 0;

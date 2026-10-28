@@ -1,10 +1,10 @@
-import { createImageCarousel } from "../modules/images";
-import { createButton, formatDate, makeElement } from "../modules/utils";
+import { createImageCarousel } from "../modules/images.module";
+import { state } from "../modules/state.module";
+import { createButton, formatDate, makeElement } from "../modules/utils.module";
 import { router } from "../router";
-import { getPageById } from "../services/firebase/db";
-import { renderNotFoundPage } from "./notfound";
+import { renderNotFoundPage } from "./notFound.view";
 
-export async function renderPublicPageView(container: HTMLElement, pageId: string, currentRole: string) {
+export async function renderPublicPageView(container: HTMLElement, pageId: string) {
     container.innerHTML = "";
     const loadingMain = document.createElement("main");
     const loading = makeElement("p", null, null, "Loading...");
@@ -13,7 +13,7 @@ export async function renderPublicPageView(container: HTMLElement, pageId: strin
 
     try {
         const main = document.createElement("main");
-        const page = await getPageById(pageId);
+        const page = state.pages?.find(page => page.id === pageId);
         if (page) {
             document.title = `${page.title} | Ryan Montville`;
             const pageTitle = makeElement("h2", null, null, page.title);
@@ -35,7 +35,7 @@ export async function renderPublicPageView(container: HTMLElement, pageId: strin
                   }
                 });
             main.append(pageTitle, pageContent);
-            if (currentRole === "admin") {
+            if (state.currentRole === "admin") {
                 const editPageBtn = createButton("Edit page", "button", "edit-btn", "", "edit");
                 editPageBtn.addEventListener("click", () => router.navigateTo(`/${pageId}/edit`));
                 main.appendChild(editPageBtn);
@@ -45,11 +45,11 @@ export async function renderPublicPageView(container: HTMLElement, pageId: strin
             loadingMain.remove();
             container.appendChild(main);
         } else {
-          renderNotFoundPage(container, pageId, currentRole);
+          renderNotFoundPage(container, pageId);
         }
         
     } catch (error) {
         console.error("Page throwing error?")
-        renderNotFoundPage(container, pageId, currentRole);
+        renderNotFoundPage(container, pageId);
     }
 }

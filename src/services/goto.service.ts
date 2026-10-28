@@ -1,4 +1,4 @@
-import { createMessage } from "../modules/utils";
+import { createMessage } from "../modules/utils.module";
 import { getEncodedValue } from "./firebase/db";
 
 function decode(encodedString: string) {

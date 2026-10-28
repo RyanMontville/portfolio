@@ -1,25 +1,23 @@
 import { router } from './router';
-import { renderPortfolioHome } from './views/portfolio';
-import { renderPageEditor, renderProjectEditor } from './views/editor';
+import { renderPortfolioHome } from './views/portfolio.view';
+import { renderPageEditor, renderProjectEditor } from './views/editor.view';
 import { auth } from './services/firebase/firebase';
-import { createLink, createMessage, makeElement } from './modules/utils';
+import { createLink, createMessage, makeElement } from './modules/utils.module';
 import { getUserRole, logoutUser, loginWithGoogle } from './services/firebase/authService';
 import { onAuthStateChanged } from 'firebase/auth';
-import { renderPages } from './views/pages';
-import { renderPublicPageView } from './views/page';
+import { renderPages } from './views/pages.view';
+import { renderPublicPageView } from './views/page.view';
 import { getAllPages } from './services/firebase/db';
 import { goToLink } from './services/goto.service';
-import { renderNotFoundPage } from './views/notfound';
-import { renderP4aPfp } from './views/p4apfp';
+import { renderNotFoundPage } from './views/notFound.view';
+import { renderP4aPfp } from './views/p4apfp.view';
+import { state } from './modules/state.module';
 
 const appElement = document.getElementById('app') as HTMLDivElement;
 
-let currentUser: any = null;
-let currentRole: string | null = null;
-
 async function initApp() {
   await auth.authStateReady();
-  currentUser = auth.currentUser;
+  state.setCurrentUser(auth.currentUser);
   const urlParams = new URLSearchParams(window.location.search);
   const gotToParam = urlParams.get('goto');
   if (gotToParam) {
@@ -33,13 +31,17 @@ async function initApp() {
   portfolioLink.addEventListener("click", () => router.navigateTo("/"));
   nav.appendChild(portfolioLink);
 
-  const pages = await getAllPages();
-  pages.map((page) => {
-    if (page.navLink) {
-      const pageLink = createLink({ href: `/${page.id}`, linkText: page.title, external: false });
-      nav.appendChild(pageLink);
-    }
-  });
+  if (!state.pages) {
+    state.setPages(await getAllPages())
+  }
+  if (state.pages) {
+    state.pages.map((page) => {
+      if (page.navLink) {
+        const pageLink = createLink({ href: `/${page.id}`, linkText: page.title, external: false });
+        nav.appendChild(pageLink);
+      }
+    });
+  }
 
   const adventureBlogLink = createLink({ href: "https://disney.ryanmontville.com/", linkText: "My Adventure Blog", external: false });
   adventureBlogLink.setAttribute('data-external', '');
@@ -88,12 +90,11 @@ async function initApp() {
   }
 
   await auth.authStateReady();
-  currentUser = auth.currentUser;
 
-  if (currentUser) {
+  if (state.currentUser) {
     try {
-      currentRole = await getUserRole(currentUser.uid);
-      console.log(`User ${currentUser.displayName} role is ${currentRole}`);
+      state.setCurrentRole(await getUserRole(state.currentUser.uid));
+      console.log(`User ${state.currentUser.displayName} role is ${state.currentRole}`);
     } catch (error: any) {
       createMessage({ messageBody: error.message || error, location: "main-message", type: "error" });
     }
@@ -103,15 +104,15 @@ async function initApp() {
 
   // Routes
   router.addRoute('/', () => {
-    renderPortfolioHome(appElement, currentRole ? currentRole : "");
+    renderPortfolioHome(appElement);
   });
 
   router.addRoute("/portfolio", () => {
-    renderPortfolioHome(appElement, currentRole ? currentRole : "");
+    renderPortfolioHome(appElement);
   });
 
   router.addRoute("/pages", () => {
-    renderPages(appElement, currentRole ? currentRole : "");
+    renderPages(appElement);
   });
 
   router.addRoute("/p4a-pfp-maker", () => {
@@ -120,34 +121,34 @@ async function initApp() {
 
   router.addRoute('/:id/edit', (params) => {
     const pageId = params.id;
-    renderPageEditor(appElement, pageId, currentRole);
+    renderPageEditor(appElement, pageId);
   });
 
   router.addRoute('/portfolio/:id/edit', (params) => {
     const projectID = params.id;
-    renderProjectEditor(appElement, projectID, currentRole);
+    renderProjectEditor(appElement, projectID);
 
   })
 
   router.addRoute('/:id', (params) => {
     const pageId = params.id;
-    renderPublicPageView(appElement, pageId, currentRole ? currentRole : "");
+    renderPublicPageView(appElement, pageId);
   });
 
   router.addRoute('*', () => {
     const attemptedPath = window.location.pathname.replace(/^\/+/, '');
 
-    renderNotFoundPage(appElement, attemptedPath, currentRole);
+    renderNotFoundPage(appElement, attemptedPath);
   });
 
   // Auth stuff
   onAuthStateChanged(auth, async (user) => {
-    if (user?.uid !== currentUser?.uid) {
-      currentUser = user;
-      currentRole = null;
+    if (user?.uid !== state.currentUser.uid) {
+      state.setCurrentUser(user);
+      state.setCurrentRole(null);
       try {
         if (user) {
-          currentRole = await getUserRole(user.uid);
+          state.setCurrentRole(await getUserRole(user.uid));
         }
       } catch (error: any) {
         createMessage({ messageBody: error.message || error, location: "main-message", type: "error" });
@@ -165,7 +166,7 @@ async function updateUIBasedOnAuth() {
     const existingPagesLink = nav.querySelector("#pages-nav-link");
     if (existingPagesLink) existingPagesLink.remove();
 
-    if (currentRole === "admin") {
+    if (state.currentRole === "admin") {
       const pagesLink = document.createElement("a") as HTMLAnchorElement;
       pagesLink.id = "pages-nav-link";
       pagesLink.textContent = "Pages";
@@ -176,7 +177,7 @@ async function updateUIBasedOnAuth() {
 
   const loginBtn = document.getElementById("log-in-btn") as HTMLButtonElement;
   if (loginBtn) {
-    if (currentUser) {
+    if (state.currentUser) {
       loginBtn.textContent = "Log Out";
     } else {
       loginBtn.textContent = "Log In";
@@ -186,8 +187,9 @@ async function updateUIBasedOnAuth() {
 
 async function handleLogInButton() {
   try {
-    if (currentUser) {
+    if (state.currentUser) {
       await logoutUser();
+      state.setCurrentUser(null);
       createMessage({ messageBody: "You have been logged out", location: "main-message", type: "info" });
       window.location.reload();
     } else {

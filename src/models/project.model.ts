@@ -1,4 +1,4 @@
-import { makeElement } from "../modules/utils";
+import { makeElement } from "../modules/utils.module";
 
 export class Project {
     public id: string;

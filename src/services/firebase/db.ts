@@ -72,19 +72,6 @@ export async function getAllPages(): Promise<Page[]> {
     }
 }
 
-export async function getPageById(pageId: string): Promise<Page | null> {
-    const docRef = doc(db, PAGES_COLLECTION, pageId);
-    const docSnap = await getDoc(docRef);
-    if (docSnap.exists()) {
-        return {
-            id: docSnap.id,
-            ...docSnap.data()
-        } as Page;
-    } else {
-        throw new Error("Page not found");
-    }
-}
-
 export async function updatePage(pageId: string, data: { title?: string; content?: string; navLink?: boolean }): Promise<void> {
   const docRef = doc(db, PAGES_COLLECTION, pageId);
   await updateDoc(docRef, {

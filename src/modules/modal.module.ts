@@ -1,4 +1,4 @@
-import { createButton, makeElement } from "./utils";
+import { createButton, makeElement } from "./utils.module";
 
 export async function confirmDeleteModal(messageHeader: string, messageBody: string): Promise<boolean> {
   return new Promise((resolve) => {

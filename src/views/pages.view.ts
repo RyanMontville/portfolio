@@ -1,25 +1,27 @@
 import type { Page } from '../models/page.model';
-import { confirmDeleteModal } from '../modules/modal';
-import { createMessage, createTableHeader, makeElement } from '../modules/utils';
+import { confirmDeleteModal } from '../modules/modal.module';
+import { state } from '../modules/state.module';
+import { createMessage, createTableHeader, makeElement } from '../modules/utils.module';
 import { router } from '../router';
 import { createNewPage, deletePage, getAllPages } from '../services/firebase/db';
 
 export async function handleSubmit(nameInput: HTMLInputElement) {
     if (nameInput.value && nameInput.value.trim() !== "") {
-        const pageId = await createNewPage(nameInput.value.trim());
-        router.navigateTo(`/edit/${pageId}`);
+        await createNewPage(nameInput.value.trim());
+        state.setPages(await getAllPages());
+        window.location.reload();
     } else {
         createMessage({ messageBody: "Please enter the page name", location: "main-message", type: "error" });
         return;
     }
 }
 
-export async function renderPages(container: HTMLElement, currentRole: string) {
+export async function renderPages(container: HTMLElement) {
     const footer = document.querySelector("footer") as HTMLElement;
     footer.classList.add("hide");
     container.innerHTML = "";
     const main = makeElement("main", null, null, null);
-    if (currentRole !== "admin") {
+    if (state.currentRole !== "admin") {
         router.navigateTo("/");
     } else {
         const pages = await getAllPages();
@@ -42,6 +44,7 @@ export async function renderPages(container: HTMLElement, currentRole: string) {
                 if (response) {
                      await deletePage(page.id);
                      const rowToDelete = document.getElementById(page.id);
+                     if (state.pages) state.setPages(state.pages?.filter(currPage => currPage.id !== page.id));
                      if (rowToDelete) rowToDelete.remove();
                     createMessage({messageBody: `Deleted ${page.title}`, location: "main-message", type: "delete"});
                 }

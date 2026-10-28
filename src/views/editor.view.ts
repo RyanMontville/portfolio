@@ -1,9 +1,10 @@
 import type { Page } from '../models/page.model';
 import { Project } from '../models/project.model';
-import { openSkillsModal, renderSkillsRow } from '../modules/skills';
-import { createButton, createInput, createMessage, createSelect, makeElement } from '../modules/utils';
-import { getPageById, getProjectById, updatePage, updateProject } from '../services/firebase/db';
-import { renderNotFoundPage } from './notfound';
+import { openSkillsModal, renderSkillsRow } from '../modules/skills.module';
+import { state } from '../modules/state.module';
+import { createButton, createInput, createMessage, createSelect, makeElement } from '../modules/utils.module';
+import { getAllPages, getAllProjects, getProjectById, updatePage, updateProject } from '../services/firebase/db';
+import { renderNotFoundPage } from './notFound.view';
 
 async function handlePageSubmit(formElement: HTMLFormElement, pageId: string) {
     const formData = new FormData(formElement);
@@ -32,9 +33,13 @@ async function handlePageSubmit(formElement: HTMLFormElement, pageId: string) {
     }
     const nlCheck = document.getElementById("nav-link-checkbox") as HTMLInputElement;
     updatedContent.navLink = nlCheck ? nlCheck.checked : false;
-
-    await updatePage(pageId, { title: titleInput.toString().trim(), content: contentTextArea.toString(), navLink: updatedContent.navLink });
-    createMessage({ messageBody: `${titleInput.toString().trim()} updated`, location: "main-message", type: "check_circle", autoCloseSeconds: 5 });
+    if (state.currentRole === "admin") {
+        await updatePage(pageId, { title: titleInput.toString().trim(), content: contentTextArea.toString(), navLink: updatedContent.navLink });
+        createMessage({ messageBody: `${titleInput.toString().trim()} updated`, location: "main-message", type: "check_circle", autoCloseSeconds: 5 });
+        state.setPages(await getAllPages());
+    } else {
+        createMessage({messageBody: "Denied. Insufficient Permissions", location: "main-message", type: "error"});
+    }
 }
 
 async function handleProjectSubmit(formElement: HTMLFormElement, projectId: string, currentProjectSkills: string[]) {
@@ -81,12 +86,17 @@ async function handleProjectSubmit(formElement: HTMLFormElement, projectId: stri
     } else {
         updatedData.category = categorySelected as "websites-&-app" | "labs-&-utilities"
     }
+    if (state.currentRole === "admin") {
+        await updateProject(projectId, updatedData);
+        createMessage({ messageBody: `${titleVale.toString().trim()} updated`, location: "main-message", type: "check_circle", autoCloseSeconds: 5 });
+        state.setProjects(await getAllProjects());
+    } else {
+        createMessage({messageBody: "Denied. Insufficient Permissions", location: "main-message", type: "error"});
+    }
 
-    await updateProject(projectId, updatedData);
-    createMessage({ messageBody: `${titleVale.toString().trim()} updated`, location: "main-message", type: "check_circle", autoCloseSeconds: 5 });
 }
 
-export async function renderPageEditor(container: HTMLElement, pageId: string | null, currentRole: string | null) {
+export async function renderPageEditor(container: HTMLElement, pageId: string | null) {
     container.innerHTML = "";
     let error: boolean = false;
     const main = makeElement("main", null, null, null);
@@ -105,7 +115,7 @@ export async function renderPageEditor(container: HTMLElement, pageId: string | 
 
     if (pageId) {
         try {
-            const page = await getPageById(pageId);
+            const page = state.pages?.find(page => page.id === pageId);
             if (page) {
                 titleInput.value = page.title;
                 contentTextArea.value = page.content;
@@ -115,13 +125,13 @@ export async function renderPageEditor(container: HTMLElement, pageId: string | 
                     navLinkCheckbox.checked = false;
                 }
             } else {
-                renderNotFoundPage(container, pageId, currentRole);
+                renderNotFoundPage(container, pageId);
                 error = true;
             }
         } catch (err) {
             error = true;
             console.error("Error loading page: ", err);
-            renderNotFoundPage(container, pageId, currentRole);
+            renderNotFoundPage(container, pageId);
         }
     }
 
@@ -136,7 +146,7 @@ export async function renderPageEditor(container: HTMLElement, pageId: string | 
     }
 }
 
-export async function renderProjectEditor(container: HTMLElement, projectId: string | null, currentRole: string | null) {
+export async function renderProjectEditor(container: HTMLElement, projectId: string | null) {
     container.innerHTML = "";
     let error: boolean = false;
     const main = makeElement("main", null, null, null);
@@ -166,7 +176,7 @@ export async function renderProjectEditor(container: HTMLElement, projectId: str
         const updatedSkills = await openSkillsModal(currentProjectSkills);
         if (updatedSkills !== null) {
             currentProjectSkills = updatedSkills;
-            
+
             // Re-render the skills visual row and swap it in the DOM
             const newSkillsDiv = renderSkillsRow(currentProjectSkills);
             newSkillsDiv.id = "skills-list";
@@ -197,7 +207,7 @@ export async function renderProjectEditor(container: HTMLElement, projectId: str
         } catch (err) {
             error = true;
             console.error("Error loading project: ", err);
-            renderNotFoundPage(container, projectId, currentRole);
+            renderNotFoundPage(container, projectId);
         }
     }
     editorForm.append(titleInput, dateInput, skillsContainer, editSkillsBtn, descriptionTextarea, categorySelect, submitBtn);
