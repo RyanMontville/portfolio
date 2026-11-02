@@ -1,5 +1,6 @@
 @import "https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,1,0";
 @import url("https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@100..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&family=Roboto+Slab:wght@100..900&display=swap");
 
 * {
     padding: 0;
@@ -19,7 +20,7 @@
         --main-link: #302ae6;
         --dark-mode-icon: #ffffff;
         --project-divider: #000;
-        --links-background: #b81f24;;
+        --links-background: #b81f24;
         --message-text: #fff;
         --error-background: #b81f24;
         --error-hover: #a51b20;
@@ -41,7 +42,7 @@
         --main-link: #9a97f3;
         --dark-mode-icon: #b81f24;
         --project-divider: #fff;
-        --links-background: #b81f24;;
+        --links-background: #b81f24;
         --message-text: #fff;
         --error-background: #b81f24;
         --error-hover: #a51b20;
@@ -191,46 +192,46 @@ main {
 }
 
 #modal-root {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: rgba(0, 0, 0, 0.6);
-  z-index: 9999;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 16px;
-  overflow: hidden;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 16px;
+    overflow: hidden;
 }
 
 .modal-content {
-  background-color: var(--main-background);
-  color: var(--body-color);
-  padding: 24px;
-  border-radius: 12px;
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-  width: 100%;
-  max-width: 700px;
-  max-height: calc(100vh - 32px);
-  overflow-y: auto;
-  overscroll-behavior: contain;
-  -webkit-overflow-scrolling: touch;
-  animation: modalScaleIn 0.2s ease-out;
+    background-color: var(--main-background);
+    color: var(--body-color);
+    padding: 24px;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 100%;
+    max-width: 700px;
+    max-height: calc(100vh - 32px);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+    animation: modalScaleIn 0.2s ease-out;
 }
 
 @keyframes modalScaleIn {
-  from {
-    transform: scale(0.95);
-    opacity: 0;
-  }
-  to {
-    transform: scale(1);
-    opacity: 1;
-  }
+    from {
+        transform: scale(0.95);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
 }
 
 .loader {
@@ -398,7 +399,8 @@ ul {
     gap: 5px;
 }
 
-.links a, button {
+.links a,
+button {
     margin: 10px;
     padding: 5px;
     border: 3px solid var(--links-background);
@@ -408,7 +410,8 @@ ul {
     transition: 0.2s linear;
 }
 
-.links a:hover, button:hover {
+.links a:hover,
+button:hover {
     background-color: var(--links-background);
     color: white;
     text-decoration: none !important;
@@ -473,8 +476,10 @@ td.center {
     color: var(--main-background);
 }
 
+/* P4A */
+
 .p4a-pfp-overlay {
-    width: 200px;
+    width: 100px;
     cursor: pointer;
 }
 
@@ -490,11 +495,24 @@ td.center {
     margin: 0 auto;
 }
 
-#pfa-image-upload input[type="file"] {
+.selected-frame {
+    --s: 30px;
+    padding: 10px;
+    border: 3px solid #45ff56;
+    -webkit-mask:
+        conic-gradient(at var(--s) var(--s), #0000 75%, #000 0) 0 0 / calc(100% - var(--s)) calc(100% - var(--s)),
+        linear-gradient(#000 0 0) content-box;
+    mask:
+        conic-gradient(at var(--s) var(--s), #0000 75%, #000 0) 0 0 / calc(100% - var(--s)) calc(100% - var(--s)),
+        linear-gradient(#000 0 0) content-box;
+}
+
+#p4a-main-content input[type="file"] {
     display: none;
 }
 
-.custom-file-upload, button {
+.custom-file-upload,
+button {
     display: inline-block;
     padding: 10px 20px;
     cursor: pointer;
@@ -506,10 +524,107 @@ td.center {
     border: 3px solid #b81f24;
 }
 
-.custom-file-upload:hover, button:hover {
+.custom-file-upload:hover,
+button:hover {
     background-color: #b81f24;
     border: 3px solid #b81f24;
     color: #fff;
+}
+
+.p4a-card {
+    border-radius: 50px;
+    background-color: #02081a;
+    overflow: hidden;
+    padding: 5px !important;
+    -webkit-box-shadow: 0px 0px 36px 12px rgba(5, 182, 120, 0.46);
+    -moz-box-shadow: 0px 0px 36px 12px rgba(5, 182, 120, 0.46);
+    box-shadow: 0px 0px 36px 12px rgba(5, 182, 120, 0.46);
+    display: grid;
+    grid-template-columns: 1fr 3fr;
+    grid-template-rows: 100px 100px auto;
+    grid-template-areas:
+        "p4a-header p4a-header"
+        "frame-container p4a-text"
+        "frame-container p4a-main-content";
+}
+
+.p4a-header {
+    grid-area: p4a-header;
+    margin: 10px;
+    border-top-left-radius: 50px;
+    border-top-right-radius: 50px;
+    overflow: hidden;
+}
+
+#p4a-text {
+    grid-area: p4a-text;
+    height: 30px;
+}
+
+h1.p4a-heading {
+    font-size: 50px;
+    color: #45ff56;
+}
+.p4a-heading {
+    font-family: "Pixelify Sans", sans-serif;
+    text-align: center;
+}
+
+#p4a-first-bar,
+#p4a-second-bar,
+#p4a-third-bar,
+#p4a-fourth-bar {
+    display: block;
+    width: 100%;
+    height: 15px;
+    margin-bottom: 5px;
+}
+
+#p4a-first-bar {
+    background-color: #4a53b3;
+}
+
+#p4a-second-bar {
+    background-color: #4d56b1;
+}
+
+#p4a-third-bar {
+    background-color: #6370cf;
+}
+
+#p4a-fourth-bar {
+    background-color: #626acd;
+}
+
+#p4a-frame-select {
+    grid-area: frame-container;
+    display: flex;
+    gap: 20px;
+    flex-direction: column;
+    align-items: center;
+    margin: 20px;
+}
+
+#p4a-main-content {
+    grid-area: p4a-main-content;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+#p4a-connected {
+    margin-top: 20px;
+    border: 3px solid #e2e3e8;
+    background-color: #320666;
+}
+
+.connected-bar {
+    display: block;
+    height: 5px;
+    width: 100%;
+    background-color: #f16037;
+    margin-bottom: 5px;
 }
 
 @media (min-width: 1135px) and (max-width: 1489px) {

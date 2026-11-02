@@ -1,33 +1,30 @@
 <main>
-    <article class="card">
+    <article class="card p4a-card">
+        <div class="p4a-header">
+            <div id="p4a-first-bar"></div>
+            <div id="p4a-second-bar"></div>
+            <div id="p4a-third-bar"></div>
+            <div id="p4a-fourth-bar"></div>
+        </div>
+        <div id="p4a-text">
+            <h1 class="p4a-heading">PROJECT FOR AWESOME</h1>
+            <h2 id="p4a-card-title" class="p4a-heading">&lt; SELECT FRAME COLOR &gt;</h2>
+        </div>
         <section id="p4a-frame-select">
-            <h2>Step 1: Choose the color of the frame</h2>
-            <div class="flex-row around">
-                <img src="p4a/aqua.png" id="aqua" class="p4a-pfp-overlay"/>
-                <img src="p4a/green.png" id="green" class="p4a-pfp-overlay"/>
-                <img src="p4a/navy.png" id="navy" class="p4a-pfp-overlay"/>
-                <img src="p4a/orange.png" id="orange" class="p4a-pfp-overlay"/>
+            <div class="p4a-frame-container">
+                <img src="p4a/aqua.png" id="aqua" class="p4a-pfp-overlay" />
+                <img src="p4a/green.png" id="green" class="p4a-pfp-overlay" />
+                <img src="p4a/navy.png" id="navy" class="p4a-pfp-overlay" />
+                <img src="p4a/orange.png" id="orange" class="p4a-pfp-overlay" />
             </div>
         </section>
-        <section id="pfa-image-upload" class="hide">
-            <h2>Step 2: Select an image</h2>
-            <label for="upload" class="custom-file-upload">
-                Choose Image
-            </label>
-            <input type="file" id="upload" accept="image/*">
-        </section>
-        <section id="p4a-show-and-download-section" class="hide">
-            <h2>Step 3: Download!</h2>
-            <div class="flex-row around">
-                <canvas id="p4a-canvas"></canvas>
-                <button id="download">Download</button>
-            </div>
-
-        </section>
+        <section id="p4a-main-content"></section>
     </article>
-    <article class="card">
+    <article id="p4a-connected" class="card">
+        <div class="connected-bar"></div>
+        <div class="connected-bar"></div>
+        <div class="connected-bar"></div>
         <h2>Stay connected with the Project 4 Awesome</h2>
-        <p>P4A February 12-14</p>
         <ul>
             <li><a href="https://projectforawesome.com/" target="_blank">P4A Website</a></li>
             <li><a href="https://bsky.app/profile/projectforawesome.com" target="_blank">P4A Bluesky</a></li>
