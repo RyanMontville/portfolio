@@ -481,6 +481,15 @@ td.center {
 .p4a-pfp-overlay {
     width: 100px;
     cursor: pointer;
+    --s: 30px;
+    padding: 10px;
+    border: 3px solid #02081a;
+    -webkit-mask:
+        conic-gradient(at var(--s) var(--s), #0000 75%, #000 0) 0 0 / calc(100% - var(--s)) calc(100% - var(--s)),
+        linear-gradient(#000 0 0) content-box;
+    mask:
+        conic-gradient(at var(--s) var(--s), #0000 75%, #000 0) 0 0 / calc(100% - var(--s)) calc(100% - var(--s)),
+        linear-gradient(#000 0 0) content-box;
 }
 
 .p4a-pfp-overlay:hover {
@@ -496,15 +505,7 @@ td.center {
 }
 
 .selected-frame {
-    --s: 30px;
-    padding: 10px;
     border: 3px solid #45ff56;
-    -webkit-mask:
-        conic-gradient(at var(--s) var(--s), #0000 75%, #000 0) 0 0 / calc(100% - var(--s)) calc(100% - var(--s)),
-        linear-gradient(#000 0 0) content-box;
-    mask:
-        conic-gradient(at var(--s) var(--s), #0000 75%, #000 0) 0 0 / calc(100% - var(--s)) calc(100% - var(--s)),
-        linear-gradient(#000 0 0) content-box;
 }
 
 #p4a-main-content input[type="file"] {
@@ -541,11 +542,6 @@ button:hover {
     box-shadow: 0px 0px 36px 12px rgba(5, 182, 120, 0.46);
     display: grid;
     grid-template-columns: 1fr 3fr;
-    grid-template-rows: 100px 100px auto;
-    grid-template-areas:
-        "p4a-header p4a-header"
-        "frame-container p4a-text"
-        "frame-container p4a-main-content";
 }
 
 .p4a-header {
@@ -625,6 +621,49 @@ h1.p4a-heading {
     width: 100%;
     background-color: #f16037;
     margin-bottom: 5px;
+}
+
+#p4a-connected a {
+    color: white !important;
+}
+
+#p4a-connected a:hover {
+    text-decoration: underline;
+}
+
+@media (min-width: 780px) {
+    .p4a-card {
+        grid-template-rows: 100px 100px auto;
+        grid-template-areas:
+            "p4a-header p4a-header"
+            "frame-container p4a-text"
+            "frame-container p4a-main-content";
+    }
+}
+@media (max-width: 779px) and (min-width: 580px) {
+    .p4a-card {
+        grid-template-rows: 100px 100px auto;
+        grid-template-areas:
+            "p4a-header p4a-header"
+            "p4a-text p4a-text"
+            "frame-container p4a-main-content";
+    }
+}
+@media (max-width: 579px) {
+    .p4a-card {
+        grid-template-columns: 1fr;
+        grid-template-rows: 100px 140px auto;
+        grid-template-areas:
+            "p4a-header"
+            "p4a-text"
+            "frame-container"
+            "p4a-main-content";
+    }
+    #p4a-frame-select {
+        flex-direction: row !important;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
 }
 
 @media (min-width: 1135px) and (max-width: 1489px) {
