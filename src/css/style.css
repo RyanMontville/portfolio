@@ -607,7 +607,22 @@ h1.p4a-heading {
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    min-height: 200px;
 }
+
+#image-output-row {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+#image-output-row button {
+    font-family: "Pixelify Sans", sans-serif;
+    background-color: transparent;
+    border: 0;
+    color: #fff;
+    font-size: 50px;
+}
+
 
 #p4a-connected {
     margin-top: 20px;
